@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneIt", "ZoneIt\ZoneIt.csproj", "{2EFF9423-CF1D-438F-87D4-C68BC94A530C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EFF9423-CF1D-438F-87D4-C68BC94A530C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EFF9423-CF1D-438F-87D4-C68BC94A530C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EFF9423-CF1D-438F-87D4-C68BC94A530C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EFF9423-CF1D-438F-87D4-C68BC94A530C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {282CB4A7-37CD-4AE7-8BDD-33FCE799F9A3}
+	EndGlobalSection
+EndGlobal
