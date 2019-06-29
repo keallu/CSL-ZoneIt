@@ -14,6 +14,8 @@ namespace ZoneIt
         private UIDragHandle _zoneDragHandle;
         private UIPanel _zoneInnerPanel;
         private UIButton[] _zoneButtons;
+        private UISlider _zoneRowsSlider;
+        private UILabel _zoneRowsLabel;
         private UICheckBox _zoneAnarchyCheckBox;
 
         public void Awake()
@@ -64,6 +66,14 @@ namespace ZoneIt
                 {
                     Destroy(_zoneAnarchyCheckBox);
                 }
+                if (_zoneRowsLabel != null)
+                {
+                    Destroy(_zoneRowsLabel);
+                }
+                if (_zoneRowsSlider != null)
+                {
+                    Destroy(_zoneRowsSlider);
+                }
                 foreach (UIButton button in _zoneButtons)
                 {
                     Destroy(button);
@@ -113,7 +123,7 @@ namespace ZoneIt
                 _zonePanel.zOrder = 0;
                 _zonePanel.backgroundSprite = "GenericPanelLight";
                 _zonePanel.color = new Color32(96, 96, 96, 255);
-                _zonePanel.size = new Vector2(206f, 86f);
+                _zonePanel.size = new Vector2(206f, 106f);
                 _zonePanel.isVisible = false;
 
                 _zoneDragHandle = UIUtils.CreateDragHandle(_zonePanel, "ZoneDragHandle");
@@ -129,7 +139,7 @@ namespace ZoneIt
                 _zoneInnerPanel = UIUtils.CreatePanel(_zonePanel, "ZoneInnerPanel");
                 _zoneInnerPanel.backgroundSprite = "GenericPanelLight";
                 _zoneInnerPanel.color = new Color32(206, 206, 206, 255);
-                _zoneInnerPanel.size = new Vector2(_zoneInnerPanel.parent.width - 16f, 46f);
+                _zoneInnerPanel.size = new Vector2(_zoneInnerPanel.parent.width - 16f, 66f);
                 _zoneInnerPanel.relativePosition = new Vector3(8f, 8f);
 
                 for (int i = 0; i < 5; i++)
@@ -143,8 +153,9 @@ namespace ZoneIt
                         if (!eventParam.used)
                         {
                             ModConfig.Instance.Cells = (int)button.objectUserData;
-                            UpdateButtons(ModConfig.Instance.Cells);
                             ModConfig.Instance.Save();
+
+                            UpdateButtons(ModConfig.Instance.Cells);
 
                             eventParam.Use();
                         }
@@ -153,13 +164,38 @@ namespace ZoneIt
                     _zoneButtons[i] = button;
                 }
 
+                _zoneRowsSlider = UIUtils.CreateSlider(_zoneInnerPanel, "RowsSlider", -1, 8, ModConfig.Instance.Rows);
+                _zoneRowsSlider.tooltip = "Force number of rows in zone blocks";
+                _zoneRowsSlider.size = new Vector2(130f, 8f);
+                _zoneRowsSlider.relativePosition = new Vector3(15f, 48f);
+                _zoneRowsSlider.eventValueChanged += (component, value) =>
+                {
+                    if (_zoneRowsLabel != null)
+                    {
+                        ModConfig.Instance.Rows = (int)value;
+                        ModConfig.Instance.Save();
+
+                        _zoneRowsLabel.text = value == -1 ? "Off" : value.ToString();
+                    }
+                };
+
+                _zoneRowsLabel = UIUtils.CreateLabel(_zoneInnerPanel, "RowsLabel", ModConfig.Instance.Rows == -1 ? "Off" : ModConfig.Instance.Rows.ToString());
+                _zoneRowsLabel.textAlignment = UIHorizontalAlignment.Right;
+                _zoneRowsLabel.verticalAlignment = UIVerticalAlignment.Top;
+                _zoneRowsLabel.textColor = new Color32(185, 221, 254, 255);
+                _zoneRowsLabel.textScale = 0.7058824f;
+                _zoneRowsLabel.autoSize = false;
+                _zoneRowsLabel.size = new Vector2(30f, 16f);
+                _zoneRowsLabel.relativePosition = new Vector3(150f, 48f);
+
                 _zoneAnarchyCheckBox = UIUtils.CreateCheckBox(_zonePanel, "AnarchyCheckBox", "Zone Anarchy", ModConfig.Instance.Anarchy);
                 _zoneAnarchyCheckBox.tooltip = "Enable Zone Anarchy to avoid any update of zone blocks";
                 _zoneAnarchyCheckBox.size = new Vector2(_zoneAnarchyCheckBox.parent.width - 16f, 16f);
-                _zoneAnarchyCheckBox.relativePosition = new Vector3(8f, 62f);
+                _zoneAnarchyCheckBox.relativePosition = new Vector3(8f, 82f);
                 _zoneAnarchyCheckBox.eventCheckChanged += (component, value) =>
                 {
                     ModConfig.Instance.Anarchy = value;
+                    ModConfig.Instance.Save();
                 };
 
                 UpdateUI();

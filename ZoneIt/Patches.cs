@@ -40,8 +40,27 @@ namespace ZoneIt
         }
     }
 
+    [HarmonyPatch(typeof(ZoneManager), "CreateBlock")]
+    public static class ZoneManagerCreateBlockPatch
+    {
+        static void Prefix(ref int rows)
+        {
+            try
+            {
+                if (ModConfig.Instance.Rows != -1)
+                {
+                    rows = ModConfig.Instance.Rows;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("[Zone It!] ZoneManagerCreateBlockPatch:Prefix -> Exception: " + e.Message);
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(ZoneManager), "UpdateBlock")]
-    public static class ZoneBlockUpdateBlockPatch
+    public static class ZoneManagerUpdateBlockPatch
     {
         static bool Prefix()
         {
@@ -51,14 +70,14 @@ namespace ZoneIt
             }
             catch (Exception e)
             {
-                Debug.Log("[Zone It!] ZoneBlockUpdateBlockPatch:Prefix -> Exception: " + e.Message);
+                Debug.Log("[Zone It!] ZoneManagerUpdateBlockPatch:Prefix -> Exception: " + e.Message);
                 return true;
             }
         }
     }
 
     [HarmonyPatch(typeof(ZoneManager), "UpdateBlocks")]
-    public static class ZoneBlockUpdateBlocksPatch
+    public static class ZoneManagerUpdateBlocksPatch
     {
         static bool Prefix()
         {
@@ -68,7 +87,7 @@ namespace ZoneIt
             }
             catch (Exception e)
             {
-                Debug.Log("[Zone It!] ZoneBlockUpdateBlocksPatch:Prefix -> Exception: " + e.Message);
+                Debug.Log("[Zone It!] ZoneManagerUpdateBlocksPatch:Prefix -> Exception: " + e.Message);
                 return true;
             }
         }

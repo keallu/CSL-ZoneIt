@@ -7,7 +7,7 @@ namespace ZoneIt
     public class ModInfo : IUserMod
     {
         public string Name => "Zone It!";
-        public string Description => "Allows to change zone radius and avoid zone block updates.";
+        public string Description => "Allows to change zone block layout and also disable zone block updates.";
 
         public void OnEnabled()
         {

@@ -39,6 +39,32 @@ namespace ZoneIt
             return label;
         }
 
+        public static UISlider CreateSlider(UIComponent parent, string name, float min, float max, float initial)
+        {
+            UISlider slider = parent.AddUIComponent<UISlider>();
+            slider.name = name;
+            slider.maxValue = max;
+            slider.minValue = min;
+
+            UISlicedSprite slicedSprite = slider.AddUIComponent<UISlicedSprite>();
+            slicedSprite.spriteName = "BudgetSlider";
+            slicedSprite.relativePosition = Vector3.zero;
+
+            UISprite thumbSprite = slider.AddUIComponent<UISprite>();
+            thumbSprite.spriteName = "SliderFill";
+            thumbSprite.relativePosition = Vector3.zero;
+            slider.thumbObject = thumbSprite;
+            
+            slider.value = initial;
+
+            slider.eventSizeChanged += (component, value) =>
+            {
+                slicedSprite.width = slicedSprite.parent.width;
+            };
+
+            return slider;
+        }
+
         public static UICheckBox CreateCheckBox(UIComponent parent, string name, string text, bool state)
         {
             UICheckBox checkBox = parent.AddUIComponent<UICheckBox>();
