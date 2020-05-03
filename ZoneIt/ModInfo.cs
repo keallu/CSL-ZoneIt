@@ -6,19 +6,22 @@ namespace ZoneIt
 {
     public class ModInfo : IUserMod
     {
+        private readonly string _harmonyId = "com.github.keallu.csl.zoneit";
+        private HarmonyInstance _harmony;
+
         public string Name => "Zone It!";
         public string Description => "Allows to change zone block layout and also disable zone block updates.";
 
         public void OnEnabled()
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.zoneit");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            _harmony = HarmonyInstance.Create(_harmonyId);
+            _harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
         public void OnDisabled()
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.zoneit");
-            harmony.UnpatchAll();
+            _harmony.UnpatchAll(_harmonyId);
+            _harmony = null;
         }
 
         public void OnSettingsUI(UIHelperBase helper)
