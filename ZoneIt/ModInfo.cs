@@ -1,6 +1,5 @@
-﻿using Harmony;
+﻿using CitiesHarmony.API;
 using ICities;
-using System.Reflection;
 
 namespace ZoneIt
 {
@@ -11,14 +10,15 @@ namespace ZoneIt
 
         public void OnEnabled()
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.zoneit");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            HarmonyHelper.DoOnHarmonyReady(() => Patcher.PatchAll());
         }
 
         public void OnDisabled()
         {
-            var harmony = HarmonyInstance.Create("com.github.keallu.csl.zoneit");
-            harmony.UnpatchAll();
+            if (HarmonyHelper.IsHarmonyInstalled)
+            {
+                Patcher.UnpatchAll();
+            }
         }
 
         public void OnSettingsUI(UIHelperBase helper)
